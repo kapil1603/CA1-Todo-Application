@@ -6,7 +6,8 @@ const sqlite3 = require("sqlite3");
 const app = express();
 app.use(express.json());
 
-dbPath = path.join(__dirname, "todoApplication.db");
+const dbPath = path.join(__dirname, "todoApplication.db");
+let db = null;
 
 const initializeDbAndServer = async () => {
   try {
@@ -90,4 +91,20 @@ app.get("/todos/", async (request, response) => {
   data = await db.all(getTodosQuery);
   console.log(data);
   response.send(data);
+});
+
+app.get("/todos/:todoId", async (request, response) => {
+  const { todoId } = request.params;
+  console.log(request.params);
+  const getTodosQuery = `
+        SELECT 
+            id,todo,priority,status,category,due_date AS dueDate
+        FROM 
+            todo            
+        WHERE 
+            id = ${todoId};`;
+
+  const todo = await db.get(getTodosQuery);
+  console.log(todo);
+  response.send(todo);
 });

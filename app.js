@@ -2,7 +2,7 @@ const express = require("express");
 const { open } = require("sqlite");
 const path = require("path");
 const sqlite3 = require("sqlite3");
-var addDays = require("date-fns/addDays");
+var format = require("date-fns/format");
 
 const app = express();
 app.use(express.json());
@@ -118,16 +118,21 @@ app.get("/todos/:todoId", async (request, response) => {
 app.get("/agenda/", async (request, response) => {
   const { due_date } = request.query;
   console.log(request.query);
-  const getDateQuery = `SELECT due_date AS dueDate FROM todo WHERE due_date = '${due_date}'`;
+  //   console.log(date);
+  const myDate = new Date(request.query.date);
+  const formatedDate = format(new Date(myDate), "yyyy-MM-dd");
+  //   console.log(formatedDate);
+  const getDateQuery = `SELECT due_date AS dueDate FROM todo
+   WHERE due_date = '${formatedDate}'`;
   console.log(getDateQuery);
   const getDate = await db.all(getDateQuery);
+  console.log(getDate);
   if (getDate === undefined) {
     response.status(400);
     response.send("Invalid Due Date");
   } else {
     response.send(getDate);
   }
-  console.log(getDate);
 });
 
 // Create a todo in the todo table API 4

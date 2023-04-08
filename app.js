@@ -34,8 +34,8 @@ const checkRequestQueries = async (request, response, next) => {
     const priorityArray = priorityList.includes(myPriority);
     console.log(priorityArray);
     if (priorityArray === true) {
-      console.log("priorityArray");
-      return myPriority;
+      console.log(myPriority);
+      request.priority = priority;
     } else {
       response.status(400);
       response.send("Invalid Todo Priority");
@@ -49,7 +49,7 @@ const checkRequestQueries = async (request, response, next) => {
     const statusArray = statusList.includes(myStatus);
     if (statusArray === true) {
       console.log(myStatus, "kapil");
-      return myStatus;
+      request.status = status;
     } else {
       response.status(400);
       response.send("Invalid Todo Status");
@@ -82,6 +82,7 @@ app.get("/todos/", checkRequestQueries, async (request, response) => {
   const { search_q = "", priority = "", status = "", category = "" } = request;
   console.log(search_q, priority, status, category);
   console.log(request.query);
+
   const getTododQuery = `SELECT
           id,todo,priority,status,category,due_date AS dueDate
       FROM
@@ -90,6 +91,7 @@ app.get("/todos/", checkRequestQueries, async (request, response) => {
            todo = '%${search_q}%' AND status = '%${status}%'AND
            category = '${category}' AND priority = '%${priority}%' `;
   console.log(getTododQuery);
+
   const todoList = await db.all(getTododQuery);
   console.log(todoList);
   response.send(todoList);

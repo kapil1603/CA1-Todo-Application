@@ -1,4 +1,4 @@
-GET http://localhost:3000/todos/?status=TO%20DO
+GET http://localhost:3000/todos/?status=TO%20
 
 ###
 GET http://localhost:3000/todos/?priority=HIGH
@@ -18,12 +18,16 @@ GET http://localhost:3000/todos/?category=HOME
 ###
 GET http://localhost:3000/todos/?category=LEARNING&priority=HIGH
 
+// specific todo based on the todo ID API 2
 ###
 GET http://localhost:3000/todos/2/
 
+// list of all todos with a specific due date in the query parameter API 3
 ###
 GET http://localhost:3000/agenda/?date=2021-01-12
 
+
+// Create a todo in the todo table API 4
 ###
 POST http://localhost:3000/todos/
 Content-Type: application/json
@@ -37,6 +41,7 @@ Content-Type: application/json
   "dueDate": "2021-02-22"
 }
 
+// Updates the details of a specific todo API 5
 ###
 PUT http://localhost:3000/todos/2/
 Content-Type: application/json
@@ -67,5 +72,7 @@ Content-Type: application/json
 
 { "dueDate": "2021-01-12" }  
 
+
+// Deletes a todo from the todo table 
 ###
 DELETE http://localhost:3000/todos/6/

@@ -209,3 +209,5 @@ app.delete("/todos/:todoId/", async (request, response) => {
   await db.run(getTodoId);
   response.send("Todo Deleted");
 });
+
+module.exports = app;

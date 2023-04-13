@@ -104,7 +104,6 @@ const checkRequestsBody = (request, response, next) => {
   if (category !== undefined) {
     categoryArray = ["WORK", "HOME", "LEARNING"];
     categoryIsInArray = categoryArray.includes(category);
-
     if (categoryIsInArray === true) {
       request.category = category;
     } else {
@@ -217,16 +216,18 @@ app.get("/agenda/", async (request, response) => {
   //   console.log(date);
   try {
     const myDate = new Date(request.query.date);
+    console.log(myDate);
     const formatedDate = format(new Date(myDate), "yyyy-MM-dd");
     console.log(formatedDate);
     const result = toDate(new Date(formatedDate));
-    const isValidDate = isValid(resuformatedDatelt);
+    console.log(result);
+    const isValidDate = isValid(result);
     console.log(isValidDate);
     if (isValidDate === true) {
       const { due_date } = request.query;
       console.log(request.query);
 
-      const getDateQuery = `SELECT due_date AS dueDate FROM todo
+      const getDateQuery = `SELECT id, todo, priority, status, category,due_date AS dueDate FROM todo
    WHERE due_date = '${formatedDate}'`;
       console.log(getDateQuery);
       const getDate = await db.all(getDateQuery);

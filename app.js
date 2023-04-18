@@ -306,7 +306,7 @@ app.put("/todos/:todoId/", checkRequestsBody, async (request, response) => {
   console.log(request.body);
 
   const updatedData = `UPDATE todo 
-    SET (todo = '${todo}',status = '${status}',category = '${category}',priority = '${priority}',dueDate = '${dueDate}')`;
+    SET todo = '${todo}',status = '${status}',category = '${category}',priority = '${priority}',due_date = '${dueDate}'`;
   console.log(updatedData);
   console.log("kapil");
   await db.run(updatedData);
